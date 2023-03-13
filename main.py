@@ -11,7 +11,6 @@ epochs = 100
 def main():
     pointnet = PointNet(num_points, num_labels)
     # summary(pointnet, input_size=(batch_size, num_points, 3))
-    # print(pointnet.state_dict().keys())
 
 
     new_param = pointnet.state_dict()
@@ -33,20 +32,11 @@ def main():
         for input_data, labels in dataloader:
             pointnet.zero_grad()
 
-            # sampler_data, sampler_labels = data_sampler(batch_size, num_points)
-            # print("sampler: ", sampler_data.shape)
-            # print(input_data.shape)
-            # print("sampler: ", sampler_labels.shape)
-            # print(labels.shape)
             input_data = input_data.view(-1, 3)
-            # print(input_data.shape)
             labels = labels.view(-1, 1)
-            # print(labels.shape)
             output = pointnet(input_data.float())
             output = nn.Sigmoid()(output)
-            # print(output.shape)
-            # output Tensor printed
-            # print(output) 
+            
             error = criterion(output, labels)
             # calculate grad
             error.backward()
